@@ -34,9 +34,11 @@ public class App extends Application {
         {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
         {0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
         {0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1}
-    };
+        };
 
-        MapManager.loadMap(root, test_map, dimensions);
+        Tile map[][] = MapManager.generateMapFromMapLayout(test_map, dimensions);
+
+        MapManager.loadMap(root, map, dimensions);
 
         scene = new Scene(root, WindowSettings.WINDOW_WIDTH, WindowSettings.WINDOW_HEIGHT);
         stage.setScene(scene);

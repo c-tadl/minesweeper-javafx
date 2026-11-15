@@ -3,35 +3,48 @@ package com.minesweeper;
 import javafx.scene.layout.*;
 
 public class MapManager {
-    public static int[][] generateMap(int dimensions, int numOfBombs)
+    public static int[][] generateMapLayout(int dimensions, int numOfBombs)
     {
         //Generate map
         return new int[dimensions][dimensions];
     }
 
-    public static void loadMap(Pane root, int[][] map, int dimensions)
+    public static Tile[][] generateMapFromMapLayout(int[][] array, int dimensions)
+    {
+        Tile[][] map = new Tile[dimensions][dimensions];
+
+        for (int i = 0; i < dimensions; i++)
+        {
+            for (int j = 0; j < dimensions; j++)
+            {
+                int tileSize = WindowSettings.WINDOW_WIDTH / dimensions;
+
+                if (array[i][j] == 0)
+                {
+                    map[i][j] = new Tile(map, tileSize, new Vector2(i, j), false);
+                }
+                else
+                {
+                    map[i][j] = new Tile(map, tileSize, new Vector2(i, j), true);
+                }
+            }
+        }
+
+        return map;
+    }
+
+    public static void loadMap(Pane root, Tile[][] map, int dimensions)
     {
         for (int i = 0; i < dimensions; i++)
         {
             for (int j = 0; j < dimensions; j++)
             {
-                Tile tile;
-                int tileSize = WindowSettings.WINDOW_WIDTH / dimensions;
-
-                if (map[i][j] == 0)
-                {
-                    tile = new Tile(map, tileSize, new Vector2(i, j), false);
-                }
-                else
-                {
-                    tile = new Tile(map, tileSize, new Vector2(i, j), true);
-                }
-                root.getChildren().add(tile);
+                root.getChildren().add(map[i][j]);
             }
         }
     }
 
-    public static int getNeighboringBombCount(int[][] map, Tile tile)
+    public static int getNeighboringBombCount(Tile[][] map, Tile tile)
     {
         int count = 0;
 
@@ -49,7 +62,7 @@ public class MapManager {
                 int checkY = y + j;
 
                 if (checkX >= 0 && checkX < map.length && checkY >= 0 && checkY < map[0].length) {
-                    if (map[checkX][checkY] == 1) {
+                    if (map[checkX][checkY].getBombStatus() == true) {
                         count++;
                     }
                 }

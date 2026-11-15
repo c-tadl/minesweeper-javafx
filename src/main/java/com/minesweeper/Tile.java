@@ -4,7 +4,7 @@ import javafx.scene.control.Button;
 import javafx.scene.input.MouseEvent;
 
 public class Tile extends Button {
-    int[][] parentMap;
+    Tile[][] parentMap;
 
     private boolean revealed = false;
     private boolean hasBomb;
@@ -13,7 +13,7 @@ public class Tile extends Button {
     Vector2 mapPosition;
     Vector2 windowPosition;
 
-    Tile(int[][] parentMap, int size, Vector2 mapPosition, boolean hasBomb)
+    Tile(Tile[][] parentMap, int size, Vector2 mapPosition, boolean hasBomb)
     {
         this.parentMap = parentMap;
 
@@ -70,5 +70,10 @@ public class Tile extends Button {
 
         }
         revealed = true;
+    }
+
+    public boolean getBombStatus()
+    {
+        return this.hasBomb;
     }
 }
