@@ -3,9 +3,10 @@ package com.minesweeper;
 import javafx.scene.control.Button;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.*;
 
 public abstract class Cell extends Button {
-    Cell[][] parentMap;
+    MapManager manager;
 
     private boolean isRevealed = false;
     private boolean isFlagged = false;
@@ -15,18 +16,23 @@ public abstract class Cell extends Button {
     Vector2 mapPosition;
     Vector2 windowPosition;
 
-    Cell(Cell[][] parentMap, int size, Vector2 mapPosition)
+    Background forestTexture;
+
+    Cell(MapManager manager, int size, Vector2 mapPosition)
     {
-        this.parentMap = parentMap;
+        this.manager = manager;
 
         this.size = size;
         this.setPrefSize(size, size);
 
         this.mapPosition = mapPosition;
-        windowPosition = new Vector2(WindowSettings.SCREEN_PADDING + mapPosition.x * size, WindowSettings.SCREEN_PADDING + mapPosition.y * size);
+        windowPosition = new Vector2(mapPosition.x * size, mapPosition.y * size);
 
         this.setLayoutX(windowPosition.x);
         this.setLayoutY(windowPosition.y);
+
+        this.forestTexture = TextureManager.getRandomForestTex();
+        this.setBackground(forestTexture);
 
         this.addEventHandler(MouseEvent.MOUSE_CLICKED, event ->
             {
@@ -64,6 +70,7 @@ public abstract class Cell extends Button {
     public void reveal()
     {
         isRevealed = true;
+        this.setBackground(TextureManager.dirt_tex);
         System.out.println("Revealed, (" + mapPosition.x + ", " + mapPosition.y + ")");
     }
 
@@ -72,11 +79,13 @@ public abstract class Cell extends Button {
         if(!isFlagged)
         {   
             isFlagged = true;
+            this.setBackground(TextureManager.createBackgroundFlag(forestTexture));
             System.out.println("Flagged, (" + mapPosition.x + ", " + mapPosition.y + ")");
         }
         else
         {
             isFlagged = false;
+            this.setBackground(forestTexture);
             System.out.println("Unflagged, (" + mapPosition.x + ", " + mapPosition.y + ")");
         }
     }

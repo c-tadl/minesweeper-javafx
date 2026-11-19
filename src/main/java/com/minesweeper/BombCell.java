@@ -1,11 +1,16 @@
 package com.minesweeper;
 
 public class BombCell extends Cell{
-    BombCell(Cell[][] parentMap, int size, Vector2 mapPosition)
+    BombCell(MapManager manager, int size, Vector2 mapPosition)
     {
-        super(parentMap, size, mapPosition);
+        super(manager, size, mapPosition);
         this.hasBomb = true;
     }
 
-    // Override reveal
+    @Override
+    public void reveal()
+    {
+        super.reveal();
+        this.setBackground(TextureManager.createBackground("textures/bomb_1.png"));
+    }
 }

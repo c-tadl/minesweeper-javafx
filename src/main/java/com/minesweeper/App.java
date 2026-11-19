@@ -13,10 +13,20 @@ public class App extends Application {
 
     @Override
     public void start(Stage stage) throws IOException {
-        Pane root = new Pane();
+        Pane mapPane = new Pane();
 
         MapManager manager = new MapManager(16, 5);
-        manager.loadMap(root);
+        manager.loadMap(mapPane);
+
+        double mapWidth = manager.getMapDimensions() * (WindowSettings.WINDOW_WIDTH) / manager.getMapDimensions();
+        double mapHeight = manager.getMapDimensions() * (WindowSettings.WINDOW_WIDTH) / manager.getMapDimensions();
+
+        mapPane.setMinSize(mapWidth, mapHeight);
+        mapPane.setPrefSize(mapWidth, mapHeight);
+        mapPane.setMaxSize(mapWidth, mapHeight);
+
+        StackPane root = new StackPane(mapPane);
+        root.setStyle("-fx-background-color: #07449e;");
 
         scene = new Scene(root, WindowSettings.WINDOW_WIDTH, WindowSettings.WINDOW_HEIGHT);
         stage.setScene(scene);
