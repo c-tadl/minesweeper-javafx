@@ -12,20 +12,27 @@ public class BombCell extends Cell{
     {
         super.reveal();
         this.setBackground(TextureManager.createBackground("textures/bomb_1.png"));
-        // End Game
+        System.out.println("YOU LOSE :(");
     }
 
-    // @Override 
-    // public void flag()
-    // {
-    //     super.flag();
-    //     if (getFlagStatus())
-    //     {
+    @Override 
+    public void flag()
+    {
+        super.flag();
+        if (getFlagStatus())
+        {
+            manager.numOfFlaggedBombs++;
+            System.out.println("Flagged Bombs: " + manager.numOfFlaggedBombs);
 
-    //     }
-    //     else
-    //     {
-
-    //     }
-    // }
+            if (manager.numOfFlaggedBombs == manager.numOfBombs)
+            {
+                System.out.println("YOU WIN!!!");
+            }
+        }
+        else
+        {
+            manager.numOfFlaggedBombs--;
+            System.out.println("Flagged Bombs: " + manager.numOfFlaggedBombs);
+        }
+    }
 }

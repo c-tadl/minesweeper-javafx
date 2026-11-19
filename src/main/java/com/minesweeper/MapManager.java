@@ -4,13 +4,15 @@ import javafx.scene.layout.*;
 
 public class MapManager {
     private int mapDimensions;
-    private int numOfBombs;
+    protected int numOfBombs;
+    protected int numOfFlaggedBombs;
     private Cell[][] map;
 
     MapManager(int mapDimensions, int numOfBombs)
     {
         this.mapDimensions = mapDimensions;
         this.numOfBombs = numOfBombs;
+        this.numOfFlaggedBombs = 0;
 
         this.generateMapFromMapLayout(generateMapLayout());
     }
