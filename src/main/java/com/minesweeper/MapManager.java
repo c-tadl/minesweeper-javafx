@@ -3,29 +3,61 @@ package com.minesweeper;
 import javafx.scene.layout.*;
 
 public class MapManager {
-    public static int[][] generateMapLayout(int dimensions, int numOfBombs)
+    private int mapDimensions;
+    private int numOfBombs;
+    private Cell[][] map;
+
+    MapManager(int mapDimensions, int numOfBombs)
     {
-        //Generate map
-        return new int[dimensions][dimensions];
+        this.mapDimensions = mapDimensions;
+        this.numOfBombs = numOfBombs;
+
+        map = generateMapFromMapLayout(generateMapLayout(numOfBombs));
     }
 
-    public static Tile[][] generateMapFromMapLayout(int[][] array, int dimensions)
+    public int[][] generateMapLayout(int numOfBombs)
     {
-        Tile[][] map = new Tile[dimensions][dimensions];
+        //Generate map (TEMPORARY)
 
-        for (int i = 0; i < dimensions; i++)
+        int test_map[][] = {
+        {0, 1, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0},
+        {0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 1, 0, 0, 0, 0, 0},
+        {0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0},
+        {0, 0, 1, 0, 0, 0, 0, 1, 1, 1, 0, 1, 0, 0, 1, 0},
+        {0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0},
+        {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+        {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0},
+        {0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+        {0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1},
+        {0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 1, 0, 0, 0, 0, 0},
+        {0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0},
+        {0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 1, 1, 0, 0},
+        {0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1},
+        {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+        {0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+        {0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1}
+        };
+
+        return test_map;
+    }
+
+    public Cell[][] generateMapFromMapLayout(int[][] array)
+    {
+        Cell[][] map = new Cell[mapDimensions][mapDimensions];
+
+        for (int i = 0; i < mapDimensions; i++)
         {
-            for (int j = 0; j < dimensions; j++)
+            for (int j = 0; j < mapDimensions; j++)
             {
-                int tileSize = WindowSettings.WINDOW_WIDTH / dimensions;
+                int tileSize = (WindowSettings.WINDOW_WIDTH - (2 * WindowSettings.SCREEN_PADDING)) / mapDimensions;
 
                 if (array[i][j] == 0)
                 {
-                    map[i][j] = new Tile(map, tileSize, new Vector2(i, j), false);
+                    map[i][j] = new NumberCell(map, tileSize, new Vector2(i, j));
                 }
                 else
                 {
-                    map[i][j] = new Tile(map, tileSize, new Vector2(i, j), true);
+                    map[i][j] = new BombCell(map, tileSize, new Vector2(i, j));
                 }
             }
         }
@@ -33,18 +65,25 @@ public class MapManager {
         return map;
     }
 
-    public static void loadMap(Pane root, Tile[][] map, int dimensions)
+    public void loadMap(Pane root)
     {
-        for (int i = 0; i < dimensions; i++)
+        for (int i = 0; i < mapDimensions; i++)
         {
-            for (int j = 0; j < dimensions; j++)
+            for (int j = 0; j < mapDimensions; j++)
             {
                 root.getChildren().add(map[i][j]);
             }
         }
     }
 
-    public static int getNeighboringBombCount(Tile[][] map, Tile tile)
+    public void radialClearSurroundingTiles(Cell tile)
+    {
+        // First: run if tile is equal to zero
+        // Second: check neigbors and reveal if they are not the bomb
+        // Third: run the function for each neighbor that is not a bomb
+    }
+
+    public int getNeighboringBombCount(Cell tile)
     {
         int count = 0;
 
