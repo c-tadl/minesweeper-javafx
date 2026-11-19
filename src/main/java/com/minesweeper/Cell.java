@@ -1,5 +1,6 @@
 package com.minesweeper;
 
+import javafx.scene.Cursor;
 import javafx.scene.control.Button;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
@@ -49,6 +50,29 @@ public abstract class Cell extends Button {
                 }
             }
         );
+
+        this.setOnMouseEntered(event -> 
+            {
+                if (!isRevealed)
+                {
+                    this.setCursor(Cursor.HAND);
+                    this.setStyle(
+                        "-fx-border-color: red;" + 
+                        "-fx-border-width: 2px;" +
+                        "-fx-border-radius: 2px;"
+                    );
+                }
+            }
+        );
+
+        this.setOnMouseExited(event -> 
+            {
+                this.setCursor(Cursor.CLOSED_HAND);
+                this.setStyle(
+                    "-fx-border-color: transparent;"
+                );
+            }
+        );
     }
 
     public void updateSize(int size)
@@ -93,5 +117,10 @@ public abstract class Cell extends Button {
     public boolean getBombStatus()
     {
         return this.hasBomb;
+    }
+
+    public boolean getFlagStatus()
+    {
+        return this.isFlagged;
     }
 }

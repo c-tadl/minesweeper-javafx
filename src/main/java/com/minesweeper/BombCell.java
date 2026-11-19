@@ -12,5 +12,20 @@ public class BombCell extends Cell{
     {
         super.reveal();
         this.setBackground(TextureManager.createBackground("textures/bomb_1.png"));
+        // End Game
     }
+
+    // @Override 
+    // public void flag()
+    // {
+    //     super.flag();
+    //     if (getFlagStatus())
+    //     {
+
+    //     }
+    //     else
+    //     {
+
+    //     }
+    // }
 }
